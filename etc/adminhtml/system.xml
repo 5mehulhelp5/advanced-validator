@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2024
+ * Piotr Wlosek piotr.wlosekx@gmail.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="m2s" translate="label" sortOrder="10">
+            <label>M2S</label>
+        </tab>
+        <section id="m2s" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>M2S</label>
+            <tab>m2s</tab>
+            <resource>M2S_AdvancedValidator::acl_rule</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Module Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="validation_json_regex" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Validation regex</label>
+                    <comment>Define custom validation to field example: validation name:'custom-city-validation', regex: '^[a-zA-Z0-9-_]+$', message: </comment>
+                    <backend_model>M2S\AdvancedValidator\Model\Config\SerializeValue</backend_model>
+                    <frontend_model>M2S\AdvancedValidator\Block\Adminhtml\Form\Field\ColumnValidation</frontend_model>
+                </field>
+                <field id="fields_validation" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Fields validation</label>
+                    <comment>Connect validation with field: {['city' => 'custom-city-validation']}</comment>
+                    <frontend_model>M2S\AdvancedValidator\Block\Adminhtml\Form\Field\ColumnFieldsValidation</frontend_model>
+                    <backend_model>M2S\AdvancedValidator\Model\Config\SerializeValue</backend_model>
+                </field>
+            </group>
+            <group id="advanced" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Advanced</label>
+                <field id="shipping_address_path" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Shipping address path</label>
+                </field>
+                <field id="billing_address_path" translate="l
+                abel" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Billing address path</label>
+                    <comment>This work only for billing address after payment methods or custom path instead of billing address inside of payment method</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

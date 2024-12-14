@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2024
+ * Piotr Wlosek piotr.wlosekx@gmail.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <m2s>
+            <advanced>
+                <shipping_address_path>/shipping-step/children/shippingAddress/children/shipping-address-fieldset/children</shipping_address_path>
+                <billing_address_path>/billing-step/children/shippingAddress/children/shipping-address-fieldset/children</billing_address_path>
+            </advanced>
+        </m2s>
+    </default>
+</config>
