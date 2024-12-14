@@ -1,0 +1,20 @@
+<?php
+/**
+ * Copyright © 2024
+ * Piotr Wlosek piotr.wlosekx@gmail.com
+ */
+use M2S\AdvancedValidator\Block\Template;
+use M2S\AdvancedValidator\ViewModel\Config;
+
+/** @var Template $block */
+/** @var Config $viewModel */
+$viewModel = $block->getViewModel();
+?>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "validationList": <?= json_encode($viewModel->getValidationJsonRegex()) ?>
+        }
+    }
+</script>
