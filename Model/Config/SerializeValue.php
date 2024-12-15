@@ -11,6 +11,7 @@ use Magento\Framework\Model\Context;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Config\Value;
 use Magento\Config\Model\Config\Backend\Serialized;
+use Magento\Framework\Exception\LocalizedException;
 
 class SerializeValue extends Serialized
 {
@@ -33,8 +34,27 @@ class SerializeValue extends Serialized
                 );
             }
         }
+        $this->removeValidationNameDuplicates($value);
+    
         $this->setValue($value);
         return parent::beforeSave();
-    }    
+    }
+
+    public function removeValidationNameDuplicates(&$data) {
+    $uniqueValidationNames = [];
+
+        foreach ($data as $key => $item) {
+            $validationName = isset($item['validation_name_regex']) ? $item['validation_name_regex'] : false;
+            
+            if ($validationName && in_array($validationName, $uniqueValidationNames)) {
+                unset($data[$key]);
+                throw new LocalizedException(
+                    __('Validation name must be unique!')
+                );
+            } else if ($validationName) {
+                $uniqueValidationNames[] = $validationName;
+            }
+        }
+    }
 }
 

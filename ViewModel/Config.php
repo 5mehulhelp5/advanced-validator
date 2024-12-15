@@ -40,7 +40,7 @@ class Config implements ArgumentInterface
      */
     public function isEnabled(): bool
     { 
-        return $this->scopeConfig->getValue( 
+        return (bool)$this->scopeConfig->getValue( 
         self::M2S_ENABLE_MODULE_PATH, 
         ScopeInterface::SCOPE_STORE); 
     } 
@@ -76,17 +76,17 @@ class Config implements ArgumentInterface
       */
      public function getValidationJsonRegex(): array
      { 
-        $reasons = $this->scopeConfig->getValue( 
+        $validations = $this->scopeConfig->getValue( 
             self::M2S_VALIDATION_JSON_REGEX_PATH, 
             ScopeInterface::SCOPE_STORE);
-        $reasons = is_array($reasons) ? $reasons : json_decode($reasons, true);
+        $validations = is_array($validations) ? $validations : json_decode($validations, true);
         $result = [];
-        foreach ($reasons as $reason) {
+        foreach ($validations as $validation) {
         $result[] = [
-            'country_id' => $reason['country_id'],
-            'validation_name' => $reason['validation_name'],
-            'regex' => $reason['regex'],
-            'message' => $reason['message']
+            'country_id' => $validation['country_id'],
+            'validation_name_regex' => $validation['validation_name_regex'],
+            'regex' => $validation['regex'],
+            'message' => $validation['message']
         ];
     }
 

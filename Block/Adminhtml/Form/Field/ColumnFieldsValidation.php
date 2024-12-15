@@ -13,7 +13,7 @@ class ColumnFieldsValidation extends AbstractFieldArray
     protected function _prepareToRender()
     {
         $this->addColumn('field_code',['label' => __('Field code'), 'class' => 'required-entry']);  
-        $this->addColumn('validation_name',['label' => __('Validation name'), 'class' => 'required-entry']);
+        $this->addColumn('validation_name',['label' => __('Validation key'), 'class' => 'required-entry']);
         $this->_addAfter = false;
         $this->_addButtonLabel = __('Add validation');
     }

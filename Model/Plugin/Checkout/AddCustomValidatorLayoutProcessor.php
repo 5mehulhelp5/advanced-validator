@@ -44,9 +44,9 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
             }
     
             $jsLayout = $this->arrayManager->replace($shippingForm, $jsLayout, $fields);
-    
-            return $jsLayout;
         }
+
+        return $jsLayout;
     }
 
     public function addCustomValidation(array $customField): array
