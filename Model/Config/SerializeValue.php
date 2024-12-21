@@ -5,24 +5,16 @@
  */
 namespace M2S\AdvancedValidator\Model\Config;
 
-use Magento\Framework\App\Cache\TypeListInterface;
-use Magento\Framework\Data\Collection\AbstractDb;
-use Magento\Framework\Model\Context;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\App\Config\Value;
 use Magento\Config\Model\Config\Backend\Serialized;
 use Magento\Framework\Exception\LocalizedException;
 
 class SerializeValue extends Serialized
 {
-
     /**
-     * Processing object before save data
-     *
-     * @return $this
+     * @return SerializeValue
      * @throws LocalizedException
      */
-    public function beforeSave()
+    public function beforeSave(): object
     {
         $value = $this->getValue();
         if (is_array($value)) {
@@ -35,17 +27,23 @@ class SerializeValue extends Serialized
             }
         }
         $this->removeValidationNameDuplicates($value);
-    
+
         $this->setValue($value);
         return parent::beforeSave();
     }
 
-    public function removeValidationNameDuplicates(&$data) {
+    /**
+     * @param $data
+     * @return void
+     * @throws LocalizedException
+     */
+    public function removeValidationNameDuplicates(&$data): void
+    {
     $uniqueValidationNames = [];
 
         foreach ($data as $key => $item) {
             $validationName = isset($item['validation_name_regex']) ? $item['validation_name_regex'] : false;
-            
+
             if ($validationName && in_array($validationName, $uniqueValidationNames)) {
                 unset($data[$key]);
                 throw new LocalizedException(

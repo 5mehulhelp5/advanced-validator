@@ -10,7 +10,7 @@
         <m2s>
             <advanced>
                 <shipping_address_path>/shipping-step/children/shippingAddress/children/shipping-address-fieldset/children</shipping_address_path>
-                <billing_address_path>/billing-step/children/shippingAddress/children/shipping-address-fieldset/children</billing_address_path>
+                <billing_address_path>/billing-step/children/billingAddress/children/address-fieldset/children</billing_address_path>
             </advanced>
         </m2s>
     </default>

@@ -14,7 +14,7 @@ define([
 ], function ($, _, utils, validationList, $t, wrapper, rulesList) {
     'use strict';
 
-    return function (validator) {
+    return function () {
     /**
      * Validates provided value be the specified rule.
      *
@@ -22,6 +22,7 @@ define([
      * @param {*} value - Value to be checked.
      * @param {*} [params]
      * @param {*} additionalParams - additional validation params set by method caller
+     * @param countryUpdate
      * @returns {Object}
      */
     function validate(id, value, params, additionalParams, countryUpdate) {
@@ -72,6 +73,7 @@ define([
      * @param {(String|Object)} rules - One or many validation rules.
      * @param {*} value - Value to be checked.
      * @param {*} additionalParams - additional validation params set by method caller
+     * @param countryUpdate
      * @returns {Object}
      */
     function validator(rules, value, additionalParams, countryUpdate) {
@@ -104,16 +106,11 @@ define([
                 message: message,
             };
         };
-console.log('validationList()',validationList())
         validationList().forEach(function(item) {
             const regex = new RegExp(item.regex, "i");
-console.log('item.validation_name', item)
             validator.addRule(
                 item.validation_name_regex,
                 function (value, params, additionalParams, countryId) {
-                    console.log('countryId', countryId)
-                    console.log('item', item)
-                    console.log('item str_array = str.split()',item.country_id.split(','))
                     if (item.country_id.includes(countryId) || !item.country_id) {
                         return utils.isEmpty(value) || regex.test(value);
                     }
