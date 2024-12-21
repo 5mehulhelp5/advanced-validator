@@ -10,9 +10,12 @@ use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
 
 class ColumnFieldsValidation extends AbstractFieldArray
 {
-    protected function _prepareToRender()
+    /**
+     * @return void
+     */
+    protected function _prepareToRender(): void
     {
-        $this->addColumn('field_code',['label' => __('Field code'), 'class' => 'required-entry']);  
+        $this->addColumn('field_code',['label' => __('Field code'), 'class' => 'required-entry']);
         $this->addColumn('validation_name',['label' => __('Validation key'), 'class' => 'required-entry']);
         $this->_addAfter = false;
         $this->_addButtonLabel = __('Add validation');

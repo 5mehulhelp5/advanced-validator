@@ -9,7 +9,7 @@
     <type name="Magento\Checkout\Block\Onepage">
         <arguments>
             <argument name="layoutProcessors" xsi:type="array">
-                <item name="custom_validator" xsi:type="object" sortOrder="200">M2S\AdvancedValidator\Model\Plugin\Checkout\AddCustomValidatorLayoutProcessor</item>
+                <item name="custom_checkout_validator" xsi:type="object" sortOrder="200">M2S\AdvancedValidator\Model\Plugin\Checkout\AddCustomValidatorLayoutProcessor</item>
             </argument>
         </arguments>
     </type>

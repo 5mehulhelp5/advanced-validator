@@ -12,47 +12,124 @@ use Magento\Framework\Serialize\SerializerInterface;
 
 class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
 {
+    protected const BILLING_ADDRESS_PAYMENT_METHODS_PATH = 'components/checkout/children/steps/children/billing-step/children/payment/children/payments-list/children';
 
+    /**
+     * @param Config $config
+     * @param ArrayManager $arrayManager
+     * @param SerializerInterface $serializeInterface
+     */
     public function __construct(
         protected Config $config,
         protected ArrayManager $arrayManager,
         protected SerializerInterface $serializeInterface
     ) {
-        $this->config = $config;
-        $this->arrayManager = $arrayManager;
-        $this->serializeInterface = $serializeInterface;
     }
 
+
     /**
-     * 
+     * @param $jsLayout
+     * @return array
      */
     public function process($jsLayout): array
     {
+
         if ($this->config->isEnabled()) {
-            $step = 'components/checkout/children/steps/children';
-            $shippingForm = $step . $this->config->getAdvancedShippingAddressPath();
-    
-            if (empty($fields = $this->arrayManager->get($shippingForm, $jsLayout))) {
-                return $jsLayout;
-            }
-    
-            $customFields = $this->config->getCustomFieldsValidationJson();
-    
-            foreach($customFields as $key => $customField) {
-                $fieldCode = $customField['field_code'];
-                $fields[$fieldCode]['validation'] = array_merge($fields[$fieldCode]['validation'], $this->addCustomValidation($customField));
-            }
-    
-            $jsLayout = $this->arrayManager->replace($shippingForm, $jsLayout, $fields);
+            $this->implementShippingAddressValidation($jsLayout);
+            $this->implementBillingAddressValidation($jsLayout);
         }
 
         return $jsLayout;
     }
 
+    /**
+     * @param array $customField
+     * @return true[]
+     */
     public function addCustomValidation(array $customField): array
     {
         return [
             $customField['validation_name'] => true
         ];
+    }
+
+    /**
+     * @param $jsLayout
+     * @return array
+     */
+    protected function implementShippingAddressValidation(&$jsLayout): array
+    {
+        $step = 'components/checkout/children/steps/children';
+        $shippingForm = $step . $this->config->getAdvancedShippingAddressPath();
+
+        if (empty($fields = $this->arrayManager->get($shippingForm, $jsLayout))) {
+            return $jsLayout;
+        }
+
+        $customFields = $this->config->getCustomFieldsValidationJson();
+
+        foreach($customFields as $key => $customField) {
+            $fieldCode = $customField['field_code'];
+            $fields[$fieldCode]['validation'] = array_merge($fields[$fieldCode]['validation'], $this->addCustomValidation($customField));
+        }
+
+        $jsLayout = $this->arrayManager->replace($shippingForm, $jsLayout, $fields);
+    }
+
+
+    /**
+     * @param $jsLayout
+     * @return array
+     */
+    protected function implementBillingAddressValidation(&$jsLayout): array
+    {
+        $step = 'components/checkout/children/steps/children';
+        $billingMode = $this->config->getDisplayBillingAddressMode();
+        $customFields = $this->config->getCustomFieldsValidationJson();
+
+        if ($billingMode === '1') {
+            $billingForm = $step . $this->config->getAdvancedBillingAddressPath();
+            if (empty($fields = $this->arrayManager->get($billingForm, $jsLayout))) {
+                return $jsLayout;
+            }
+
+            foreach($customFields as $key => $customField) {
+                $fieldCode = $customField['field_code'];
+                $fields[$fieldCode]['validation'] = array_merge($fields[$fieldCode]['validation'], $this->addCustomValidation($customField));
+            }
+
+            $jsLayout = $this->arrayManager->replace($billingForm, $jsLayout, $fields);
+        } else {
+            foreach ($this->getPaymentMethods($jsLayout) as $paymentKey => &$paymentMethod) {
+                $paymentPath = self::BILLING_ADDRESS_PAYMENT_METHODS_PATH . '/' . $paymentKey . '/' . 'children/form-fields/children';
+                $fields = &$paymentMethod['children']['form-fields']['children'];
+                if ($fields === null) {
+                    continue;
+                }
+
+                foreach($customFields as $key => $customField) {
+                    $fieldCode = $customField['field_code'];
+                    $fields[$fieldCode]['validation']
+                    = array_merge($fields[$fieldCode]['validation'], $this->addCustomValidation($customField));
+                }
+
+                $jsLayout = $this->arrayManager->replace($paymentPath, $jsLayout, $fields);
+
+            }
+        }
+        return $jsLayout;
+    }
+
+
+    /**
+     * @param array $jsLayout
+     * @return array
+     */
+    private function getPaymentMethods(array $jsLayout): array
+    {
+        return $this->arrayManager->get(
+            self::BILLING_ADDRESS_PAYMENT_METHODS_PATH,
+            $jsLayout
+        );
     }
 }
