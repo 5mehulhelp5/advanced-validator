@@ -100,7 +100,7 @@ This field allows you to define a custom path for the shipping address. If your 
 - **Default Value**: /billing-step/children/billingAddress/children/address-fieldset/children
 
 **Description**:  
-Similar to the shipping address path, this field allows you to specify a custom path for the billing address. This is useful if you have a custom payment method or address structure.
+Similar to the shipping address path, this field allows you to specify a custom path for the billing address. This is useful if you have a custom address structure.
 
 ---
 

@@ -23,6 +23,12 @@ class Config implements ArgumentInterface
 
     protected const CHECKOUT_DISPLAY_BILLING_ADDRESS = 'checkout/options/display_billing_address_on';
 
+    const ALL_FORMS = '0';
+
+    const SHIPPING_FORMS = '1';
+
+    const BILLING_FORMS = '2';
+
     /**
      * @param ScopeConfigInterface $scopeConfig
      */

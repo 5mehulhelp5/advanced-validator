@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Copyright © 2024
  * Piotr Wlosek piotr.wlosekx@gmail.com
@@ -26,14 +27,12 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
     ) {
     }
 
-
     /**
      * @param $jsLayout
      * @return array
      */
     public function process($jsLayout): array
     {
-
         if ($this->config->isEnabled()) {
             $this->implementShippingAddressValidation($jsLayout);
             $this->implementBillingAddressValidation($jsLayout);
@@ -49,7 +48,7 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
     public function addCustomValidation(array $customField): array
     {
         return [
-            $customField['validation_name'] => true
+            $customField['validation_name'] => !!$customField['validation_value']
         ];
     }
 
@@ -69,11 +68,14 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
         $customFields = $this->config->getCustomFieldsValidationJson();
 
         foreach($customFields as $key => $customField) {
-            $fieldCode = $customField['field_code'];
-            $fields[$fieldCode]['validation'] = array_merge($fields[$fieldCode]['validation'], $this->addCustomValidation($customField));
+            if ($this->isEnabledForShipping($customField)) {
+                $fieldCode = $customField['field_code'];
+                $fields[$fieldCode]['validation'] = array_merge($fields[$fieldCode]['validation'], $this->addCustomValidation($customField));
+            }
         }
 
         $jsLayout = $this->arrayManager->replace($shippingForm, $jsLayout, $fields);
+        return $jsLayout;
     }
 
 
@@ -86,16 +88,17 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
         $step = 'components/checkout/children/steps/children';
         $billingMode = $this->config->getDisplayBillingAddressMode();
         $customFields = $this->config->getCustomFieldsValidationJson();
-
-        if ($billingMode === '1') {
+        if ($billingMode) {
             $billingForm = $step . $this->config->getAdvancedBillingAddressPath();
             if (empty($fields = $this->arrayManager->get($billingForm, $jsLayout))) {
                 return $jsLayout;
             }
 
             foreach($customFields as $key => $customField) {
-                $fieldCode = $customField['field_code'];
-                $fields[$fieldCode]['validation'] = array_merge($fields[$fieldCode]['validation'], $this->addCustomValidation($customField));
+                if ($this->isEnabledForBilling($customField)) {
+                    $fieldCode = $customField['field_code'];
+                    $fields[$fieldCode]['validation'] = array_merge($fields[$fieldCode]['validation'], $this->addCustomValidation($customField));
+                }
             }
 
             $jsLayout = $this->arrayManager->replace($billingForm, $jsLayout, $fields);
@@ -108,9 +111,11 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
                 }
 
                 foreach($customFields as $key => $customField) {
-                    $fieldCode = $customField['field_code'];
-                    $fields[$fieldCode]['validation']
-                    = array_merge($fields[$fieldCode]['validation'], $this->addCustomValidation($customField));
+                    if ($this->isEnabledForBilling($customField)) {
+                        $fieldCode = $customField['field_code'];
+                        $fields[$fieldCode]['validation']
+                            = array_merge($fields[$fieldCode]['validation'], $this->addCustomValidation($customField));
+                    }
                 }
 
                 $jsLayout = $this->arrayManager->replace($paymentPath, $jsLayout, $fields);
@@ -131,5 +136,23 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
             self::BILLING_ADDRESS_PAYMENT_METHODS_PATH,
             $jsLayout
         );
+    }
+
+    /**
+     * @param $config
+     * @return bool
+     */
+    private function isEnabledForShipping($config): bool
+    {
+        return $config['validation_value'] && (Config::ALL_FORMS === $config['address_type'] || Config::SHIPPING_FORMS === $config['address_type']);
+    }
+
+    /**
+     * @param $config
+     * @return bool
+     */
+    private function isEnabledForBilling($config): bool
+    {
+        return $config['validation_value'] && (Config::ALL_FORMS === $config['address_type'] || Config::BILLING_FORMS === $config['address_type']);
     }
 }

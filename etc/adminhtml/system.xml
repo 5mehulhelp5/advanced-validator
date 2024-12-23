@@ -23,27 +23,31 @@
                 </field>
                 <field id="validation_json_regex" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
                     <label>Custom Validation Regex List</label>
-                    <comment>Define a custom validation rule for a field. Example: Country codes: 'PL, US',Validation key: 'custom-city-validation', regex: '^[a-zA-Z0-9-_]+$', message: 'Please enter a valid city'</comment>
+                    <comment>Define a custom validation rule for a field. For example: Country codes: 'PL, US', Validation key: 'custom-city-validation', Regex: '^[a-zA-Z0-9-_]+$', Message: 'Please enter a valid city'.</comment>
                     <backend_model>M2S\AdvancedValidator\Model\Config\SerializeValue</backend_model>
                     <frontend_model>M2S\AdvancedValidator\Block\Adminhtml\Form\Field\ColumnValidation</frontend_model>
                 </field>
                 <field id="fields_validation" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Fields validation rules</label>
-                    <comment>Configure validation for the field: {['city' => 'custom-city-validation']}.
-                        For a detailed list of Magento's default validators, refer to: https://developer.adobe.com/commerce/frontend-core/guide/validations/rule-list/</comment>
+                    <comment>Configure the validation for the field. Example: Field code: 'city', Validation key: 'custom-city-validation'. For a comprehensive list of Magento's default validators, please refer to: Magento Default Validators (https://developer.adobe.com/commerce/frontend-core/guide/validations/rule-list/).</comment>
                     <frontend_model>M2S\AdvancedValidator\Block\Adminhtml\Form\Field\ColumnFieldsValidation</frontend_model>
                     <backend_model>M2S\AdvancedValidator\Model\Config\SerializeValue</backend_model>
                 </field>
             </group>
             <group id="advanced" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Advanced</label>
+                <comment>Only for developers</comment>
+
                 <field id="shipping_address_path" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Shipping address path</label>
+                    <comment>This field allows you to define a custom path for the shipping address. If your checkout flow has a custom structure, specify the path where the shipping address is located.</comment>
                 </field>
                 <field id="billing_address_path" translate="l
                 abel" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Billing address path</label>
-                    <comment>This work only for billing address after payment methods or custom path instead of billing address inside of payment method</comment>
+                    <comment>
+                        Similar to the shipping address path, this field allows you to specify a custom path for the billing address. This is useful if you have a custom address structure.
+                        This only applies to the billing address when it is set to display after the payment methods, or when a custom path is used instead of the default billing address inside the payment method.                    </comment>
                 </field>
             </group>
         </section>
