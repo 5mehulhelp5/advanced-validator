@@ -11,13 +11,11 @@ You can install the **Advanced Validator** module using either Composer or by ma
 1. Download the module files.
 2. Unpack them into the following directory:
 
-
 ### Option 2: Install via Composer
 
 Run the following command in your Magento root directory:
 
 `composer require m2s/advanced-restriction`
-
 
 ## Enable the Module
 
@@ -28,7 +26,6 @@ After installation, enable the module by running the following commands:
 `bin/magento setup:upgrade`
 
 `bin/magento flush:cache`
-
 
 ---
 
@@ -71,18 +68,20 @@ This setting allows you to define custom validation rules for specific checkout 
 #### 3. **Fields Validation Rules** (General Configuration)
 
 - **Field ID**: `fields_validation`
-- **Type**: Grid of Columns (Field code, Validation Key)
+- **Type**: Grid of Columns (Field code, Validation Key, Validation Enabled, Form Type)
 
 **Description**:  
-This setting maps specific fields to the validation rules defined above. You can assign validation rules to various fields in the checkout process, such as `city` or `postcode`.
+This setting maps specific fields to the validation rules defined above. You can assign validation rules to various fields in the checkout process, such as `city` or `postcode`. It also includes options to enable or disable validation for each field and select the form type it applies to (Shipping Address, Billing Address, or All Forms).
 
-| **Field code** | **Validation Key**        |
-|----------------|---------------------------|
-| `city`         | `custom-city-validation`   |
-| `postcode`     | `custom-postcode-validation` |
+| **Field code** | **Validation Key**        | **Validation Enabled** | **Form Type**          |
+|----------------|---------------------------|------------------------|------------------------|
+| `city`         | `custom-city-validation`   | Yes                    | All forms              |
+| `postcode`     | `custom-postcode-validation` | Yes                  | Shipping Address       |
 
 - **Field code**: The checkout field code where the validation rule should be applied.
 - **Validation Key**: The validation key defined in the Custom Validation Regex List that should be used for the selected field.
+- **Validation Enabled**: A toggle (Yes/No) to enable or disable validation for the field.
+- **Form Type**: Defines the form the validation rule applies to: `All forms`, `Shipping Address`, `Billing Address`.
 
 #### 4. **Shipping Address Path** (Advanced Configuration)
 
@@ -97,7 +96,7 @@ This field allows you to define a custom path for the shipping address. If your 
 
 - **Field ID**: `billing_address_path`
 - **Type**: Text
-- **Default Value**: /billing-step/children/billingAddress/children/address-fieldset/children
+- **Default Value**: /billing-step/children/payment/children/afterMethods/children/billing-address-form/children/form-fields/children
 
 **Description**:  
 Similar to the shipping address path, this field allows you to specify a custom path for the billing address. This is useful if you have a custom address structure.
@@ -116,9 +115,9 @@ Similar to the shipping address path, this field allows you to specify a custom 
 
 2. In the **Fields Validation Rules**, map the `city` field to the `custom-city-validation` key:
 
-| **Field code** | **Validation Key**         |
-|----------------|----------------------------|
-| `city`         | `custom-city-validation`    |
+| **Field code** | **Validation Key**         | **Validation Enabled** | **Form Type**          |
+|----------------|----------------------------|------------------------|------------------------|
+| `city`         | `custom-city-validation`    | Yes                    | All forms              |
 
 ---
 
