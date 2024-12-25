@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Copyright © 2024
  * Piotr Wlosek piotr.wlosekx@gmail.com
@@ -28,10 +29,10 @@ class SerializeValue extends Value
      * @param Registry $registry
      * @param ScopeConfigInterface $config
      * @param TypeListInterface $cacheTypeList
-     * @param AbstractResource $resource
-     * @param AbstractDb $resourceCollection
+     * @param AbstractResource|null $resource
+     * @param AbstractDb|null $resourceCollection
      * @param array $data
-     * @param Json $serializer
+     * @param Json|null $serializer
      */
     public function __construct(
         Context $context,
@@ -71,6 +72,10 @@ class SerializeValue extends Value
         return parent::beforeSave();
     }
 
+    /**
+     * @param $value
+     * @return bool|string
+     */
     public function serializeValue($value)
     {
         if (is_array($value)) {

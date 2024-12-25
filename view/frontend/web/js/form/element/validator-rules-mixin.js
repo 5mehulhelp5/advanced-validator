@@ -15,90 +15,91 @@ define([
     'use strict';
 
     return function () {
-    /**
-     * Validates provided value be the specified rule.
-     *
-     * @param {String} id - Rule identifier.
-     * @param {*} value - Value to be checked.
-     * @param {*} [params]
-     * @param {*} additionalParams - additional validation params set by method caller
-     * @param countryUpdate
-     * @returns {Object}
-     */
-    function validate(id, value, params, additionalParams, countryUpdate) {
-        var rule,
-            message,
-            valid,
-            result = {
-                rule: id,
-                passed: true,
-                message: ''
-            };
+        /**
+         * Validates provided value be the specified rule.
+         *
+         * @param {String} id - Rule identifier.
+         * @param {*} value - Value to be checked.
+         * @param {*} [params]
+         * @param {*} additionalParams - additional validation params set by method caller
+         * @param countryId
+         * @returns {Object}
+         */
+        function validate(id, value, params, additionalParams, countryId) {
+            var rule,
+                message,
+                valid,
+                result = {
+                    rule: id,
+                    passed: true,
+                    message: ''
+                };
 
-        if (_.isObject(params)) {
-            message = params.message || '';
-        }
-
-        if (!rulesList[id]) {
-            return result;
-        }
-
-        rule    = rulesList[id];
-        message = message || rule.message;
-        valid   = rule.handler(value, params, additionalParams, countryUpdate);
-
-        if (!valid) {
-            params = Array.isArray(params) ?
-                params :
-                [params];
-
-            if (typeof message === 'function') {
-                message = message.call(rule);
+            if (_.isObject(params)) {
+                message = params.message || '';
             }
 
-            message = params.reduce(function (msg, param, idx) {
-                return msg.replace(new RegExp('\\{' + idx + '\\}', 'g'), param);
-            }, message);
+            if (!rulesList[id]) {
+                return result;
+            }
 
-            result.passed = false;
-            result.message = message;
-        }
+            rule    = rulesList[id];
+            message = message || rule.message;
+            valid   = rule.handler(value, params, additionalParams, countryId);
 
-        return result;
-    }
+            if (!valid) {
+                params = Array.isArray(params) ?
+                    params :
+                    [params];
 
-    /**
-     * Validates provided value by a specified set of rules.
-     *
-     * @param {(String|Object)} rules - One or many validation rules.
-     * @param {*} value - Value to be checked.
-     * @param {*} additionalParams - additional validation params set by method caller
-     * @param countryUpdate
-     * @returns {Object}
-     */
-    function validator(rules, value, additionalParams, countryUpdate) {
-        var result;
-
-        if (typeof rules === 'object') {
-            result = {
-                passed: true
-            };
-
-            _.every(rules, function (ruleParams, id) {
-                if (ruleParams.validate || ruleParams !== false || additionalParams) {
-                    result = validate(id, value, ruleParams, additionalParams, countryUpdate);
-
-                    return result.passed;
+                if (typeof message === 'function') {
+                    message = message.call(rule);
                 }
 
-                return true;
-            });
+                message = params.reduce(function (msg, param, idx) {
+                    return msg.replace(new RegExp('\\{' + idx + '\\}', 'g'), param);
+                }, message);
+
+                result.passed = false;
+                result.message = message;
+            }
 
             return result;
         }
 
-        return validate.apply(null, arguments);
-    }
+        /**
+         * New param added (countryId) to original function
+         * Validates provided value by a specified set of rules.
+         *
+         * @param {(String|Object)} rules - One or many validation rules.
+         * @param {*} value - Value to be checked.
+         * @param {*} additionalParams - additional validation params set by method caller
+         * @param countryId
+         * @returns {Object}
+         */
+        function validator(rules, value, additionalParams, countryId) {
+            var result;
+
+            if (typeof rules === 'object') {
+                result = {
+                    passed: true
+                };
+
+                _.every(rules, function (ruleParams, id) {
+                    if (ruleParams.validate || ruleParams !== false || additionalParams) {
+                        result = validate(id, value, ruleParams, additionalParams, countryId);
+
+                        return result.passed;
+                    }
+
+                    return true;
+                });
+
+                return result;
+            }
+
+            return validate.apply(null, arguments);
+        }
 
         validator.addRule = function (id, handler, message) {
             rulesList[id] = {
@@ -106,6 +107,7 @@ define([
                 message: message,
             };
         };
+
         validationList().forEach(function(item) {
             const regex = new RegExp(item.regex, "i");
             validator.addRule(

@@ -47,7 +47,7 @@
                     <label>Billing address path</label>
                     <comment>
                         Similar to the shipping address path, this field allows you to specify a custom path for the billing address. This is useful if you have a custom address structure.
-                        This only applies to the billing address when it is set to display after the payment methods, or when a custom path is used instead of the default billing address inside the payment method.                    </comment>
+                        This only applies to the billing address when it is set to display after the payment methods, or when a custom path is used instead of the default billing address inside the payment method.</comment>
                 </field>
             </group>
         </section>
