@@ -4,26 +4,21 @@ The **Advanced Validator** module for Magento 2 allows you to implement custom v
 
 ## Installation
 
-You can install the **Advanced Validator** module using either Composer or by manually adding the files to your Magento project.
+You can install the **Advanced Validator** module by manually adding the files to your Magento project.
 
-### Option 1: Unpack Files
+### Unpack Files
 
 1. Download the module files.
 2. Unpack them into the following directory:
-
-### Option 2: Install via Composer
-
-Run the following command in your Magento root directory:
-
-`composer require m2s/advanced-restriction`
+app/code/M2S/AdvancedValidator/
 
 ## Enable the Module
 
 After installation, enable the module by running the following commands:
 
-`bin/magento module:enabled M2S_AdvancedValidator`
-
 `bin/magento setup:upgrade`
+
+`bin/magento module:enabled M2S_AdvancedValidator`
 
 `bin/magento flush:cache`
 
