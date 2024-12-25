@@ -15,6 +15,8 @@ define([
         },
 
         /**
+         * New param countryId added to validator
+         *
          * Validates itself by it's validation rules using validator object.
          * If validation of a rule did not pass, writes it's message to
          * 'error' observable property.
@@ -42,8 +44,8 @@ define([
             };
         },
     }
-    
+
     return function (target) {
         return target.extend(mixin);
-    }; 
+    };
 })
