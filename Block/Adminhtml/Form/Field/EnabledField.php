@@ -11,6 +11,9 @@ use Magento\Framework\View\Element\Html\Select;
 class EnabledField extends Select
 {
 
+    /**
+     * @return string
+     */
     protected function _toHtml(): string
     {
         $options[] = ['value' => 1, 'label' => __('Yes')];
