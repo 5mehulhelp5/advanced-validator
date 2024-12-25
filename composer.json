@@ -19,5 +19,7 @@
             "type": "vcs",
             "url": "https://github.com/piotrwx/advanced-validator"
         }
-    ]
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
