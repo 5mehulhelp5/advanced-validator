@@ -5,12 +5,19 @@
     "version": "1.0.3",
     "require": {
         "magento/framework": "*",
-        "php": ">=8.0"
+        "php": ">=8.0",
+        "piotrwx/advanced-validator": "dev-main"
     },
     "autoload": {
         "psr-4": {
             "M2S\\AdvancedValidator\\": ""
         }
     },
-    "license": "MIT"
+    "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/piotrwx/advanced-validator"
+        }
+    ]
 }
