@@ -1,4 +1,6 @@
 "Validation name must be unique!","Nazwa walidacji musi być unikalna!"
 "Validation regex list","Lista walidacji (regex)"
 "Country codes","Kody krajów"
-"Validation key","Klucz validacji"
+"Validation Key","Klucz validacji"
+"Form Type","Typ formularza"
+"Field code","Kod pola"
