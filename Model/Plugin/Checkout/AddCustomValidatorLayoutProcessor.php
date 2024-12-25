@@ -144,7 +144,7 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
      */
     private function isEnabledForShipping($config): bool
     {
-        return $config['validation_value'] && (Config::ALL_FORMS === $config['address_type'] || Config::SHIPPING_FORMS === $config['address_type']);
+        return Config::ALL_FORMS === $config['address_type'] || Config::SHIPPING_FORMS === $config['address_type'];
     }
 
     /**
@@ -153,6 +153,6 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
      */
     private function isEnabledForBilling($config): bool
     {
-        return $config['validation_value'] && (Config::ALL_FORMS === $config['address_type'] || Config::BILLING_FORMS === $config['address_type']);
+        return Config::ALL_FORMS === $config['address_type'] || Config::BILLING_FORMS === $config['address_type'];
     }
 }

@@ -73,25 +73,24 @@ class SerializeValue extends Value
     }
 
     /**
-     * @param $value
+     * @param $columns
      * @return bool|string
      */
-    public function serializeValue($value)
+    public function serializeValue($columns)
     {
-        if (is_array($value)) {
-            $data = [];
+        if (is_array($columns)) {
+            $columnsData = [];
 
-            foreach ($value as $key => $item) {
-                if (!array_key_exists($key, $data)) {
-                    $data[$key] = $item;
+            foreach ($columns as $key => $column) {
+                foreach ($column as $subKey => $item) {
+                    $columnsData[$key][$subKey] = is_numeric($item) ? (int) $item : $item;
                 }
             }
 
-            return $this->serializer->serialize($data);
-        } else {
-            return $value;
+            return $this->serializer->serialize($columnsData);
         }
 
+        return $columns;
     }
 
     /**
