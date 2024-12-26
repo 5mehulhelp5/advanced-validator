@@ -95,7 +95,7 @@ This field allows you to define a custom path for the shipping address. If your 
 
 **Description**:  
 Similar to the shipping address path, this field allows you to specify a custom path for the billing address. This is useful if you have a custom address structure.
-
+You need to have the option to display beyond payments enabled for this feature to work.
 ---
 
 ## Example Use Case

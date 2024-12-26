@@ -8,6 +8,7 @@ namespace M2S\AdvancedValidator\ViewModel;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\Serialize\Serializer\Json;
 
 class Config implements ArgumentInterface
 {
@@ -31,11 +32,12 @@ class Config implements ArgumentInterface
 
     /**
      * @param ScopeConfigInterface $scopeConfig
+     * @param Json $serializer
      */
     public function __construct(
-        protected ScopeConfigInterface $scopeConfig
+        protected ScopeConfigInterface $scopeConfig,
+        protected Json $serializer
     ) {
-        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -73,18 +75,22 @@ class Config implements ArgumentInterface
      */
     public function getValidationJsonRegex(): array
     {
+        $result = [];
+
         $validations = $this->scopeConfig->getValue(
             self::M2S_VALIDATION_JSON_REGEX_PATH,
             ScopeInterface::SCOPE_STORE);
-        $validations = is_array($validations) ? $validations : json_decode($validations, true);
-        $result = [];
-        foreach ($validations as $validation) {
-            $result[] = [
-                'country_id' => $validation['country_id'],
-                'validation_name_regex' => $validation['validation_name_regex'],
-                'regex' => $validation['regex'],
-                'message' => $validation['message']
-            ];
+
+        if ($validations) {
+            $validations = is_array($validations) ? $validations : $this->serializer->unserialize($validations);
+            foreach ($validations as $validation) {
+                $result[] = [
+                    'country_id' => $validation['country_id'],
+                    'validation_name_regex' => $validation['validation_name_regex'],
+                    'regex' => $validation['regex'],
+                    'message' => $validation['message']
+                ];
+            }
         }
 
         return $result;
