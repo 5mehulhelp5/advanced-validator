@@ -5,16 +5,21 @@
  */
 use Magento\Backend\Block\Template;
 use M2S\AdvancedValidator\ViewModel\Config;
+use Magento\Framework\Escaper;
 
 /** @var Template $block */
 /** @var Config $viewModel */
+/** @var Escaper $escaper */
+
 $viewModel = $block->getViewModel();
 ?>
 
-<script type="text/x-magento-init">
-    {
-        "*": {
-            "validationList": <?= json_encode($viewModel->getValidationJsonRegex()) ?>
+<?php if ($viewModel->isEnabled()): ?>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "validationList": <?= /* @noEscape */  json_encode($viewModel->getValidationJsonRegex()) ?>
         }
     }
-</script>
+    </script>
+<?php endif; ?>

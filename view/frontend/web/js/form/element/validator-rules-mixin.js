@@ -108,21 +108,23 @@ define([
             };
         };
 
-        validationList().forEach(function(item) {
-            const regex = new RegExp(item.regex, "i");
-            validator.addRule(
-                item.validation_name_regex,
-                function (value, params, additionalParams, countryId) {
-                    if (item.country_id.includes(countryId) || !item.country_id) {
-                        return utils.isEmpty(value) || regex.test(value);
-                    }
+        if (validationList()) {
+            validationList().forEach(function(item) {
+                const regex = new RegExp(item.regex, "i");
+                validator.addRule(
+                    item.validation_name_regex,
+                    function (value, params, additionalParams, countryId) {
+                        if (item.country_id.includes(countryId) || !item.country_id) {
+                            return utils.isEmpty(value) || regex.test(value);
+                        }
 
-                    return true;
-                },
-                $t(`${item.message}`)
-            );
+                        return true;
+                    },
+                    $t(`${item.message}`)
+                );
 
-        })
+            })
+        }
 
         return validator;
     };
