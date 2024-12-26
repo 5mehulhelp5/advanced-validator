@@ -66,9 +66,10 @@ class SerializeValue extends Value
                 );
             }
             $this->removeValidationNameDuplicates($value);
+            $value = $this->serializeValue($value);
+            $this->setValue($value);
         }
-        $value = $this->serializeValue($value);
-        $this->setValue($value);
+
         return parent::beforeSave();
     }
 
