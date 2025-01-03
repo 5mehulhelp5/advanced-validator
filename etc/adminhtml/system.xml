@@ -34,6 +34,15 @@
                     <backend_model>M2S\AdvancedValidator\Model\Config\SerializeValue</backend_model>
                 </field>
             </group>
+            <group id="sort" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Sorting Configuration</label>
+                <field id="sort_order_configuration" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Fields validation rules</label>
+                    <comment>Configure the sorting for the field. Example: Field code: 'city', Sort Order: 50, Form Type: 'All forms'.</comment>
+                    <frontend_model>M2S\AdvancedValidator\Block\Adminhtml\Form\Field\ColumnFieldsSorter</frontend_model>
+                    <backend_model>M2S\AdvancedValidator\Model\Config\SerializeValue</backend_model>
+                </field>
+            </group>
             <group id="advanced" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Advanced</label>
                 <comment>Only for developers</comment>
