@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2024
+ * Copyright © 2025
  * Piotr Wlosek piotr.wlosekx@gmail.com
  */
 use Magento\Backend\Block\Template;
@@ -13,13 +13,10 @@ use Magento\Framework\Escaper;
 
 $viewModel = $block->getViewModel();
 ?>
-
-<?php if ($viewModel->isEnabled()): ?>
-    <script type="text/x-magento-init">
-        {
-            "*": {
-                "validationList": <?= /* @noEscape */  json_encode($viewModel->getValidationJsonRegex()) ?>
-        }
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "validationList": <?= /* @noEscape */  $viewModel->getValidationJsonRegex() ?>
     }
-    </script>
-<?php endif; ?>
+}
+</script>

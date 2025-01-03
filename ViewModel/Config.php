@@ -18,6 +18,10 @@ class Config implements ArgumentInterface
 
     public const BILLING_FORMS = 2;
 
+    public const BILLING_ADDRESS_PAYMENT_METHODS_PATH = 'components/checkout/children/steps/children/billing-step/children/payment/children/payments-list/children';
+
+    public const COMPONENT_PATH = 'components/checkout/children/steps/children';
+
     protected const M2S_ENABLE_MODULE_PATH = 'm2s/general/enabled';
 
     protected const M2S_ADVANCED_SHIPPING_ADDRESS_PATH = 'm2s/advanced/shipping_address_path';
@@ -27,6 +31,8 @@ class Config implements ArgumentInterface
     protected const M2S_VALIDATION_JSON_REGEX_PATH = 'm2s/general/validation_json_regex';
 
     protected const M2S_CUSTOM_FIELDS_VALIDATION_JSON_PATH = 'm2s/general/fields_validation';
+
+    protected const M2S_CUSTOM_FIELDS_SORT_ORDER_JSON_PATH = 'm2s/sort/sort_order_configuration';
 
     protected const CHECKOUT_DISPLAY_BILLING_ADDRESS = 'checkout/options/display_billing_address_on';
 
@@ -71,9 +77,9 @@ class Config implements ArgumentInterface
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getValidationJsonRegex(): array
+    public function getValidationJsonRegex(): string
     {
         $result = [];
 
@@ -93,7 +99,7 @@ class Config implements ArgumentInterface
             }
         }
 
-        return $result;
+        return $this->serializer->serialize($result);
     }
 
     /**
@@ -103,6 +109,24 @@ class Config implements ArgumentInterface
     {
         $values = $this->scopeConfig->getValue(
             self::M2S_CUSTOM_FIELDS_VALIDATION_JSON_PATH,
+            ScopeInterface::SCOPE_STORE);
+
+        if (!$values) {
+            return [];
+        }
+
+        return array_map(function ($value) {
+            return $value;
+        }, is_array($values) ? $values : $this->serializer->unserialize($values));
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomSortOrderJson(): array
+    {
+        $values = $this->scopeConfig->getValue(
+            self::M2S_CUSTOM_FIELDS_SORT_ORDER_JSON_PATH,
             ScopeInterface::SCOPE_STORE);
 
         if (!$values) {

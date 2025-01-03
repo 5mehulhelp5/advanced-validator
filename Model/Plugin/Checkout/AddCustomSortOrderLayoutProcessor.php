@@ -6,13 +6,13 @@ declare(strict_types=1);
  */
 namespace M2S\AdvancedValidator\Model\Plugin\Checkout;
 
-use Magento\Framework\Stdlib\ArrayManager;
-use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
 use M2S\AdvancedValidator\ViewModel\Config;
+use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
 use Magento\Framework\Serialize\SerializerInterface;
+use Magento\Framework\Stdlib\ArrayManager;
 use M2S\AdvancedValidator\Model\CustomFieldProcessor;
 
-class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
+class AddCustomSortOrderLayoutProcessor implements LayoutProcessorInterface
 {
     /**
      * @param Config $config
@@ -29,7 +29,7 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
     }
 
     /**
-     * Implement custom validation to jsLayout
+     * Implement custom sort order to jsLayout
      *
      * @param $jsLayout
      * @return array
@@ -37,20 +37,20 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
     public function process($jsLayout): array
     {
         if ($this->config->isEnabled()) {
-            $this->implementShippingAddressValidation($jsLayout);
-            $this->implementBillingAddressValidation($jsLayout);
+            $this->implementShippingAddressSortOrder($jsLayout);
+            $this->implementBillingAddressSortOrder($jsLayout);
         }
 
         return $jsLayout;
     }
 
     /**
-     * Implement custom validation for shipping address
+     * Implement custom sort order for shipping address
      *
      * @param $jsLayout
      * @return array
      */
-    protected function implementShippingAddressValidation(&$jsLayout): array
+    protected function implementShippingAddressSortOrder(&$jsLayout): array
     {
         $shippingForm = Config::COMPONENT_PATH . $this->config->getAdvancedShippingAddressPath();
 
@@ -58,31 +58,30 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
             return $jsLayout;
         }
 
-        $customFields = $this->config->getCustomFieldsValidationJson();
-        $this->customFieldProcessor->applyCustomFieldSettings($customFields,  $fields, Config::SHIPPING_FORMS, 'validation');
+        $customFields = $this->config->getCustomSortOrderJson();
+        $this->customFieldProcessor->applyCustomFieldSettings($customFields,  $fields, Config::SHIPPING_FORMS, 'sortOrder');
         $jsLayout = $this->arrayManager->replace($shippingForm, $jsLayout, $fields);
         return $jsLayout;
     }
 
     /**
-     * Implement custom validation for billing address
+     * Implement custom sort order for billing address
      *
      * @param $jsLayout
      * @return array
      */
-    protected function implementBillingAddressValidation(&$jsLayout): array
+    protected function implementBillingAddressSortOrder(&$jsLayout): array
     {
         $billingMode = $this->config->getDisplayBillingAddressMode();
-        $customFields = $this->config->getCustomFieldsValidationJson();
+        $customFields = $this->config->getCustomSortOrderJson();
         if ($billingMode) {
             $billingForm = Config::COMPONENT_PATH . $this->config->getAdvancedBillingAddressPath();
             if (empty($fields = $this->arrayManager->get($billingForm, $jsLayout))) {
                 return $jsLayout;
             }
 
-            $this->customFieldProcessor->applyCustomFieldSettings($customFields,  $fields, Config::BILLING_FORMS, 'validation');
+            $this->customFieldProcessor->applyCustomFieldSettings($customFields,  $fields, Config::BILLING_FORMS, 'sortOrder');
             $jsLayout = $this->arrayManager->replace($billingForm, $jsLayout, $fields);
-
         } else {
             foreach ($this->customFieldProcessor->getPaymentMethods($jsLayout) as $paymentKey => &$paymentMethod) {
                 $paymentPath = Config::BILLING_ADDRESS_PAYMENT_METHODS_PATH . '/' . $paymentKey . '/' . 'children/form-fields/children';
@@ -90,7 +89,8 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
                 if ($fields === null) {
                     continue;
                 }
-                $this->customFieldProcessor->applyCustomFieldSettings($customFields,  $fields, Config::BILLING_FORMS, 'validation');
+
+                $this->customFieldProcessor->applyCustomFieldSettings($customFields,  $fields, Config::BILLING_FORMS, 'sortOrder');
                 $jsLayout = $this->arrayManager->replace($paymentPath, $jsLayout, $fields);
             }
         }

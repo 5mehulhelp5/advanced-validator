@@ -116,6 +116,28 @@ You need to have the option to display beyond payments enabled for this feature 
 
 ---
 
+## Sorting Configuration
+
+The **Sorting Configuration** section allows you to configure the sort order of the fields on the checkout page.
+
+### Example Use Case for Sorting
+
+In this scenario, you have the `city` field set to appear first, followed by the `postcode` field in the checkout forms:
+
+1. In the **Sorting Configuration**, define the sort order for the `city` and `postcode` fields:
+
+| **Field code** | **Sort Order** | **Form Type**          |
+|----------------|----------------|------------------------|
+| `city`         | `50`           | All forms              |
+| `postcode`     | `60`           | Shipping Address       |
+
+2. The `city` field will appear before the `postcode` field, ensuring a consistent and logical order based on your configuration.
+
+---
+
+This sorting configuration allows store admins to control the layout and order of fields in the checkout process, enhancing the user experience.
+
+
 ## Credits
 
 - Developed by Piotr Wlosek
