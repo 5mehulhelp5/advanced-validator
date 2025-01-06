@@ -40,9 +40,9 @@ class ColumnFieldsClass extends AbstractFieldArray
      */
     protected function _prepareToRender(): void
     {
-        $this->addColumn('field_code',['label' => __('Field code'), 'class' => 'required-entry']);
-        $this->addColumn('additional_classes',['label' => __('CSS class'), 'class' => 'required-entry']);
-        $this->addColumn('address_type',['label' => __('Form Type'), 'renderer' => $this->getAddressTypeSelect()]);
+        $this->addColumn('field_code', ['label' => __('Field code'), 'class' => 'required-entry']);
+        $this->addColumn('additional_classes', ['label' => __('CSS class'), 'class' => 'required-entry']);
+        $this->addColumn('address_type', ['label' => __('Form Type'), 'renderer' => $this->getAddressTypeSelect()]);
         $this->_addAfter = false;
         $this->_addButtonLabel = __('Add new custom CSS class to field');
     }

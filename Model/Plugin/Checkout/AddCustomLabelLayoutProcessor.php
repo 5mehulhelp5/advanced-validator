@@ -32,22 +32,19 @@ class AddCustomLabelLayoutProcessor implements LayoutProcessorInterface
     /**
      * Implement custom label to jsLayout
      *
-     * @param $jsLayout
+     * @param array $jsLayout
      * @return array
      */
     public function process($jsLayout): array
     {
         if ($this->config->isEnabled()) {
-            $this->customFieldProcessor->implementShippingAddress(
-                $jsLayout,
-                $this->config->getCustomLabelJson(),
-                CustomFieldProcessor::LABEL_FIELD
-            );
-            $this->customFieldProcessor->implementBillingAddress(
-                $jsLayout,
-                $this->config->getCustomLabelJson(),
-                CustomFieldProcessor::LABEL_FIELD
-            );
+            $customConfig = $this->config->getCustomLabelJson();
+            $customConfigName = CustomFieldProcessor::LABEL_FIELD;
+
+            $this->customFieldProcessor
+                ->implementShippingAddress($jsLayout, $customConfig, $customConfigName);
+            $this->customFieldProcessor
+                ->implementBillingAddress($jsLayout, $customConfig, $customConfigName);
         }
         return $jsLayout;
     }

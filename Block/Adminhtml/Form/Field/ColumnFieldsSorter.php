@@ -40,9 +40,12 @@ class ColumnFieldsSorter extends AbstractFieldArray
      */
     protected function _prepareToRender(): void
     {
-        $this->addColumn('field_code',['label' => __('Field code'), 'class' => 'required-entry']);
-        $this->addColumn('sort_order',['label' => __('Sort Order'), 'class' => 'required-entry']);
-        $this->addColumn('address_type',['label' => __('Form Type'), 'renderer' => $this->getAddressTypeSelect()]);
+        $this->addColumn('field_code', [
+            'label' => __('Field code'), 'class' => 'required-entry']);
+        $this->addColumn('sort_order', [
+            'label' => __('Sort Order'), 'class' => 'required-entry']);
+        $this->addColumn('address_type', [
+            'label' => __('Form Type'), 'renderer' => $this->getAddressTypeSelect()]);
         $this->_addAfter = false;
         $this->_addButtonLabel = __('Add custom sort field');
     }

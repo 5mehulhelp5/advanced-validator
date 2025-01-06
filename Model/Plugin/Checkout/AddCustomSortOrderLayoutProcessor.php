@@ -31,7 +31,7 @@ class AddCustomSortOrderLayoutProcessor implements LayoutProcessorInterface
     /**
      * Implement custom label to jsLayout
      *
-     * @param $jsLayout
+     * @param array $jsLayout
      * @return array
      */
     public function process($jsLayout): array

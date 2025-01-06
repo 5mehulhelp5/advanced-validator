@@ -58,10 +58,14 @@ class ColumnFieldsValidation extends AbstractFieldArray
      */
     protected function _prepareToRender(): void
     {
-        $this->addColumn('field_code',['label' => __('Field code'), 'class' => 'required-entry']);
-        $this->addColumn('validation_name',['label' => __('Validation Key'), 'class' => 'required-entry']);
-        $this->addColumn('validation_value',['label' => __('Validation Enabled'), 'renderer' => $this->optionIsEnabled()]);
-        $this->addColumn('address_type',['label' => __('Form Type'), 'renderer' => $this->getAddressTypeSelect()]);
+        $this->addColumn('field_code', [
+            'label' => __('Field code'), 'class' => 'required-entry']);
+        $this->addColumn('validation_name', [
+            'label' => __('Validation Key'), 'class' => 'required-entry']);
+        $this->addColumn('validation_value', [
+            'label' => __('Validation Enabled'), 'renderer' => $this->optionIsEnabled()]);
+        $this->addColumn('address_type', [
+            'label' => __('Form Type'), 'renderer' => $this->getAddressTypeSelect()]);
         $this->_addAfter = false;
         $this->_addButtonLabel = __('Add validation');
     }

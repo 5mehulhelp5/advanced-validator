@@ -50,6 +50,8 @@ class SerializeValue extends Value
     }
 
     /**
+     * Serialize value before save, remove duplicated validation-keys
+     *
      * @return SerializeValue
      * @throws LocalizedException
      */
@@ -74,7 +76,9 @@ class SerializeValue extends Value
     }
 
     /**
-     * @param $columns
+     * Custom serialize value, numeric value save as int
+     *
+     * @param array $columns
      * @return bool|string
      */
     public function serializeValue($columns)
@@ -95,7 +99,9 @@ class SerializeValue extends Value
     }
 
     /**
-     * @param $data
+     * Remove duplicated validation regex rule by
+     *
+     * @param array $data
      * @return void
      * @throws LocalizedException
      */
@@ -111,7 +117,7 @@ class SerializeValue extends Value
                 throw new LocalizedException(
                     __('Validation name must be unique!')
                 );
-            } else if ($validationName) {
+            } elseif ($validationName) {
                 $uniqueValidationNames[] = $validationName;
             }
         }
@@ -131,4 +137,3 @@ class SerializeValue extends Value
         $this->setValue($value);
     }
 }
-

@@ -17,10 +17,10 @@ class ColumnValidation extends AbstractFieldArray
      */
     protected function _prepareToRender(): void
     {
-        $this->addColumn('country_id',['label' => __('Country codes')]);
-        $this->addColumn('validation_name_regex',['label' => __('Validation key'), 'class' => 'required-entry']);
-        $this->addColumn('regex',['label' => __('Regex'),'class' => 'required-entry']);
-        $this->addColumn('message',['label' => __('Message'), 'class' => 'required-entry']);
+        $this->addColumn('country_id', ['label' => __('Country codes')]);
+        $this->addColumn('validation_name_regex', ['label' => __('Validation key'), 'class' => 'required-entry']);
+        $this->addColumn('regex', ['label' => __('Regex'), 'class' => 'required-entry']);
+        $this->addColumn('message', ['label' => __('Message'), 'class' => 'required-entry']);
         $this->_addAfter = false;
         $this->_addButtonLabel = __('Add validation');
     }

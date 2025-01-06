@@ -10,8 +10,9 @@ use Magento\Framework\View\Element\Html\Select;
 
 class EnabledField extends Select
 {
-
     /**
+     * Create select options
+     *
      * @return string
      */
     protected function _toHtml(): string
@@ -38,10 +39,10 @@ class EnabledField extends Select
     /**
      * Set "id" for <select> element
      *
-     * @param $value
+     * @param string $value
      * @return $this
      */
-    public function setInputId($value)
+    public function setInputId(string $value)
     {
         return $this->setId($value);
     }

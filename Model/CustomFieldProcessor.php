@@ -35,8 +35,8 @@ class CustomFieldProcessor
      */
     public function __construct(
         ArrayManager $arrayManager,
-        Config $config)
-    {
+        Config $config
+    ) {
         $this->arrayManager = $arrayManager;
         $this->config = $config;
     }
@@ -91,27 +91,39 @@ class CustomFieldProcessor
      * Applies custom checkout options based on address type.
      *
      * @param array $customFields
-     * @param array &$fields
+     * @param array $fields
      * @param int $addressType
-     * @param string $type (validation or sortOrder)
+     * @param string $type
      * @return void
      */
     public function applyCustomFieldSettings(array $customFields, array &$fields, int $addressType, string $type): void
     {
+        $validationFields = [];
+
         foreach ($customFields as $customField) {
             if ($this->isEnabledForAddressType($customField, $addressType)) {
                 $fieldCode = $customField['field_code'];
+
                 if ($type === self::VALIDATION_FIELD) {
-                    $fields[$fieldCode][self::VALIDATION_FIELD] = array_merge(
-                        $fields[$fieldCode][self::VALIDATION_FIELD],
-                        $this->addCustomValidation($customField)
-                    );
+                    $validationFields[$fieldCode][] = $this->addCustomValidation($customField);
                 } elseif ($type === self::SORT_ORDER_FIELD) {
                     $fields[$fieldCode][self::SORT_ORDER_FIELD] = $this->addCustomSortOrder($customField);
-                }  elseif ($type === self::LABEL_FIELD) {
+                } elseif ($type === self::LABEL_FIELD) {
                     $fields[$fieldCode][self::LABEL_FIELD] = $this->addCustomLabel($customField);
-                }  elseif ($type === self::ADDITIONAL_CLASSES_FIELD) {
+                } elseif ($type === self::ADDITIONAL_CLASSES_FIELD) {
                     $fields[$fieldCode][self::ADDITIONAL_CLASSES_FIELD] = $this->addCustomAdditionalClass($customField);
+                }
+            }
+        }
+
+        if (!empty($validationFields)) {
+            foreach ($validationFields as $fieldCode => $validationItems) {
+                if (isset($fields[$fieldCode][self::VALIDATION_FIELD])) {
+                    foreach ($validationItems as $validationItem) {
+                        $fields[$fieldCode][self::VALIDATION_FIELD][] = $validationItem;
+                    }
+                } else {
+                    $fields[$fieldCode][self::VALIDATION_FIELD] = $validationItems;
                 }
             }
         }
@@ -147,7 +159,7 @@ class CustomFieldProcessor
     /**
      * Implement custom changes for shipping address
      *
-     * @param $jsLayout
+     * @param array $jsLayout
      * @param array $customFields
      * @param string $type
      * @return array
@@ -160,7 +172,7 @@ class CustomFieldProcessor
             return $jsLayout;
         }
 
-        $this->applyCustomFieldSettings($customFields,  $fields, Config::SHIPPING_FORMS, $type);
+        $this->applyCustomFieldSettings($customFields, $fields, Config::SHIPPING_FORMS, $type);
         $jsLayout = $this->arrayManager->replace($shippingForm, $jsLayout, $fields);
         return $jsLayout;
     }
@@ -168,7 +180,7 @@ class CustomFieldProcessor
     /**
      * Implement custom changes for billing address
      *
-     * @param $jsLayout
+     * @param array $jsLayout
      * @param array $customFields
      * @param string $type
      * @return array
@@ -182,17 +194,18 @@ class CustomFieldProcessor
                 return $jsLayout;
             }
 
-            $this->applyCustomFieldSettings($customFields,  $fields, Config::BILLING_FORMS, $type);
+            $this->applyCustomFieldSettings($customFields, $fields, Config::BILLING_FORMS, $type);
             $jsLayout = $this->arrayManager->replace($billingForm, $jsLayout, $fields);
 
         } else {
             foreach ($this->getPaymentMethods($jsLayout) as $paymentKey => &$paymentMethod) {
-                $paymentPath = Config::BILLING_ADDRESS_PAYMENT_METHODS_PATH . '/' . $paymentKey . '/' . 'children/form-fields/children';
+                $paymentPath = Config::BILLING_ADDRESS_PAYMENT_METHODS_PATH .
+                    '/' . $paymentKey . '/' . 'children/form-fields/children';
                 $fields = &$paymentMethod['children']['form-fields']['children'];
                 if ($fields === null) {
                     continue;
                 }
-                $this->applyCustomFieldSettings($customFields,  $fields, Config::BILLING_FORMS, $type);
+                $this->applyCustomFieldSettings($customFields, $fields, Config::BILLING_FORMS, $type);
                 $jsLayout = $this->arrayManager->replace($paymentPath, $jsLayout, $fields);
             }
         }

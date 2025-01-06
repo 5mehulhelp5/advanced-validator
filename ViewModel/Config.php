@@ -19,7 +19,8 @@ class Config implements ArgumentInterface
 
     public const int BILLING_FORMS = 2;
 
-    public const string BILLING_ADDRESS_PAYMENT_METHODS_PATH = 'components/checkout/children/steps/children/billing-step/children/payment/children/payments-list/children';
+    public const string BILLING_ADDRESS_PAYMENT_METHODS_PATH =
+        'components/checkout/children/steps/children/billing-step/children/payment/children/payments-list/children';
 
     public const string COMPONENT_PATH = 'components/checkout/children/steps/children';
 
@@ -52,45 +53,46 @@ class Config implements ArgumentInterface
     }
 
     /**
+     * Check if module enabled
+     *
      * @return bool
      */
     public function isEnabled(): bool
     {
-        return (bool)$this->scopeConfig->getValue(
-            self::M2S_ENABLE_MODULE_PATH,
-            ScopeInterface::SCOPE_STORE);
+        return (bool)$this->scopeConfig->getValue(self::M2S_ENABLE_MODULE_PATH, ScopeInterface::SCOPE_STORE);
     }
 
     /**
+     * Get shipping address path form
+     *
      * @return string
      */
     public function getAdvancedShippingAddressPath(): string
     {
-        return $this->scopeConfig->getValue(
-            self::M2S_ADVANCED_SHIPPING_ADDRESS_PATH,
-            ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->getValue(self::M2S_ADVANCED_SHIPPING_ADDRESS_PATH, ScopeInterface::SCOPE_STORE);
     }
 
     /**
+     * Get billing address path from configuration
+     *
      * @return string
      */
     public function getAdvancedBillingAddressPath(): string
     {
-        return $this->scopeConfig->getValue(
-            self::M2S_ADVANCED_BILLING_ADDRESS_PATH,
-            ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->getValue(self::M2S_ADVANCED_BILLING_ADDRESS_PATH, ScopeInterface::SCOPE_STORE);
     }
 
     /**
+     * Get custom regex validation
+     *
      * @return string
      */
     public function getValidationJsonRegex(): string
     {
         $result = [];
 
-        $validations = $this->scopeConfig->getValue(
-            self::M2S_VALIDATION_JSON_REGEX_PATH,
-            ScopeInterface::SCOPE_STORE);
+        $validations = $this->scopeConfig
+            ->getValue(self::M2S_VALIDATION_JSON_REGEX_PATH, ScopeInterface::SCOPE_STORE);
 
         if ($validations) {
             $validations = is_array($validations) ? $validations : $this->serializer->unserialize($validations);
@@ -108,13 +110,14 @@ class Config implements ArgumentInterface
     }
 
     /**
+     * Get custom validation fields settings
+     *
      * @return array
      */
     public function getCustomFieldsValidationJson(): array
     {
-        $values = $this->scopeConfig->getValue(
-            self::M2S_CUSTOM_FIELDS_VALIDATION_JSON_PATH,
-            ScopeInterface::SCOPE_STORE);
+        $values = $this->scopeConfig
+            ->getValue(self::M2S_CUSTOM_FIELDS_VALIDATION_JSON_PATH, ScopeInterface::SCOPE_STORE);
 
         if (!$values) {
             return [];
@@ -126,13 +129,14 @@ class Config implements ArgumentInterface
     }
 
     /**
+     * Get custom sort order fields configuration
+     *
      * @return array
      */
     public function getCustomSortOrderJson(): array
     {
-        $values = $this->scopeConfig->getValue(
-            self::M2S_CUSTOM_FIELDS_SORT_ORDER_JSON_PATH,
-            ScopeInterface::SCOPE_STORE);
+        $values = $this->scopeConfig
+            ->getValue(self::M2S_CUSTOM_FIELDS_SORT_ORDER_JSON_PATH, ScopeInterface::SCOPE_STORE);
 
         if (!$values) {
             return [];
@@ -144,13 +148,13 @@ class Config implements ArgumentInterface
     }
 
     /**
+     * Get custom label field configuration
+     *
      * @return array
      */
     public function getCustomLabelJson(): array
     {
-        $values = $this->scopeConfig->getValue(
-            self::M2S_CUSTOM_FIELDS_LABEL_JSON_PATH,
-            ScopeInterface::SCOPE_STORE);
+        $values = $this->scopeConfig->getValue(self::M2S_CUSTOM_FIELDS_LABEL_JSON_PATH, ScopeInterface::SCOPE_STORE);
 
         if (!$values) {
             return [];
@@ -162,13 +166,13 @@ class Config implements ArgumentInterface
     }
 
     /**
+     * Get custom CSS class configuration
+     *
      * @return array
      */
     public function getCustomClassJson(): array
     {
-        $values = $this->scopeConfig->getValue(
-            self::M2S_CUSTOM_FIELDS_CLASS_JSON_PATH,
-            ScopeInterface::SCOPE_STORE);
+        $values = $this->scopeConfig->getValue(self::M2S_CUSTOM_FIELDS_CLASS_JSON_PATH, ScopeInterface::SCOPE_STORE);
 
         if (!$values) {
             return [];
@@ -180,12 +184,12 @@ class Config implements ArgumentInterface
     }
 
     /**
+     * Get current checkout display path by native checkout settings
+     *
      * @return mixed
      */
     public function getDisplayBillingAddressMode(): string
     {
-        return $this->scopeConfig->getValue(
-            self::CHECKOUT_DISPLAY_BILLING_ADDRESS,
-            ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->getValue(self::CHECKOUT_DISPLAY_BILLING_ADDRESS, ScopeInterface::SCOPE_STORE);
     }
 }

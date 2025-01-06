@@ -19,7 +19,7 @@ class AddressType extends Select
     protected function _toHtml(): string
     {
         $this->addOption(Config::ALL_FORMS, __('All forms'));
-        $this->addOption(Config::SHIPPING_FORMS,  __('Shipping Address'));
+        $this->addOption(Config::SHIPPING_FORMS, __('Shipping Address'));
         $this->addOption(Config::BILLING_FORMS, __('Billing Address'));
 
         return parent::_toHtml();
@@ -39,10 +39,10 @@ class AddressType extends Select
     /**
      * Set "id" for <select> element
      *
-     * @param $value
+     * @param string $value
      * @return $this
      */
-    public function setInputId($value)
+    public function setInputId(string $value)
     {
         return $this->setId($value);
     }
