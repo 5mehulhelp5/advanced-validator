@@ -12,8 +12,9 @@ use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\Stdlib\ArrayManager;
 use M2S\AdvancedValidator\Model\CustomFieldProcessor;
 
-class AddCustomSortOrderLayoutProcessor implements LayoutProcessorInterface
+class AddCustomLabelLayoutProcessor implements LayoutProcessorInterface
 {
+
     /**
      * @param Config $config
      * @param ArrayManager $arrayManager
@@ -39,16 +40,15 @@ class AddCustomSortOrderLayoutProcessor implements LayoutProcessorInterface
         if ($this->config->isEnabled()) {
             $this->customFieldProcessor->implementShippingAddress(
                 $jsLayout,
-                $this->config->getCustomSortOrderJson(),
-                CustomFieldProcessor::SORT_ORDER_FIELD
+                $this->config->getCustomLabelJson(),
+                CustomFieldProcessor::LABEL_FIELD
             );
             $this->customFieldProcessor->implementBillingAddress(
                 $jsLayout,
-                $this->config->getCustomSortOrderJson(),
-                CustomFieldProcessor::SORT_ORDER_FIELD
+                $this->config->getCustomLabelJson(),
+                CustomFieldProcessor::LABEL_FIELD
             );
         }
-
         return $jsLayout;
     }
 }

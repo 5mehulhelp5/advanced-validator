@@ -29,7 +29,7 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
     }
 
     /**
-     * Implement custom validation to jsLayout
+     * Implement custom label to jsLayout
      *
      * @param $jsLayout
      * @return array
@@ -37,63 +37,18 @@ class AddCustomValidatorLayoutProcessor implements LayoutProcessorInterface
     public function process($jsLayout): array
     {
         if ($this->config->isEnabled()) {
-            $this->implementShippingAddressValidation($jsLayout);
-            $this->implementBillingAddressValidation($jsLayout);
+            $this->customFieldProcessor->implementShippingAddress(
+                $jsLayout,
+                $this->config->getCustomFieldsValidationJson(),
+                CustomFieldProcessor::VALIDATION_FIELD
+            );
+            $this->customFieldProcessor->implementBillingAddress(
+                $jsLayout,
+                $this->config->getCustomFieldsValidationJson(),
+                CustomFieldProcessor::VALIDATION_FIELD
+            );
         }
 
-        return $jsLayout;
-    }
-
-    /**
-     * Implement custom validation for shipping address
-     *
-     * @param $jsLayout
-     * @return array
-     */
-    protected function implementShippingAddressValidation(&$jsLayout): array
-    {
-        $shippingForm = Config::COMPONENT_PATH . $this->config->getAdvancedShippingAddressPath();
-
-        if (empty($fields = $this->arrayManager->get($shippingForm, $jsLayout))) {
-            return $jsLayout;
-        }
-
-        $customFields = $this->config->getCustomFieldsValidationJson();
-        $this->customFieldProcessor->applyCustomFieldSettings($customFields,  $fields, Config::SHIPPING_FORMS, 'validation');
-        $jsLayout = $this->arrayManager->replace($shippingForm, $jsLayout, $fields);
-        return $jsLayout;
-    }
-
-    /**
-     * Implement custom validation for billing address
-     *
-     * @param $jsLayout
-     * @return array
-     */
-    protected function implementBillingAddressValidation(&$jsLayout): array
-    {
-        $billingMode = $this->config->getDisplayBillingAddressMode();
-        $customFields = $this->config->getCustomFieldsValidationJson();
-        if ($billingMode) {
-            $billingForm = Config::COMPONENT_PATH . $this->config->getAdvancedBillingAddressPath();
-            if (empty($fields = $this->arrayManager->get($billingForm, $jsLayout))) {
-                return $jsLayout;
-            }
-
-            $this->customFieldProcessor->applyCustomFieldSettings($customFields,  $fields, Config::BILLING_FORMS, 'validation');
-            $jsLayout = $this->arrayManager->replace($billingForm, $jsLayout, $fields);
-
-        } else {
-            foreach ($this->customFieldProcessor->getPaymentMethods($jsLayout) as $paymentKey => &$paymentMethod) {
-                $paymentPath = Config::BILLING_ADDRESS_PAYMENT_METHODS_PATH . '/' . $paymentKey . '/' . 'children/form-fields/children';
-                $fields = &$paymentMethod['children']['form-fields']['children'];
-                if ($fields === null) {
-                    continue;
-                }
-                $this->customFieldProcessor->applyCustomFieldSettings($customFields,  $fields, Config::BILLING_FORMS, 'validation');
-                $jsLayout = $this->arrayManager->replace($paymentPath, $jsLayout, $fields);
-            }
-        }
         return $jsLayout;
     }
 }

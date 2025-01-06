@@ -11,6 +11,8 @@
             <argument name="layoutProcessors" xsi:type="array">
                 <item name="custom_checkout_validator" xsi:type="object" sortOrder="200">M2S\AdvancedValidator\Model\Plugin\Checkout\AddCustomValidatorLayoutProcessor</item>
                 <item name="custom_checkout_sort_order" xsi:type="object" sortOrder="210">M2S\AdvancedValidator\Model\Plugin\Checkout\AddCustomSortOrderLayoutProcessor</item>
+                <item name="custom_checkout_label" xsi:type="object" sortOrder="220">M2S\AdvancedValidator\Model\Plugin\Checkout\AddCustomLabelLayoutProcessor</item>
+                <item name="custom_checkout_class" xsi:type="object" sortOrder="230">M2S\AdvancedValidator\Model\Plugin\Checkout\AddCustomClassLayoutProcessor</item>
             </argument>
         </arguments>
     </type>

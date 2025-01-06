@@ -11,7 +11,6 @@ use M2S\AdvancedValidator\ViewModel\Config;
 
 class AddressType extends Select
 {
-
     /**
      * @return string
      */

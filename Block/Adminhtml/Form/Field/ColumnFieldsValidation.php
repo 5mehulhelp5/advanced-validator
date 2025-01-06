@@ -65,10 +65,10 @@ class ColumnFieldsValidation extends AbstractFieldArray
     /**
      * Prepare existing row data object.
      *
-     * @param \Magento\Framework\DataObject $row
+     * @param DataObject $row
      * @return void
      */
-    protected function _prepareArrayRow(\Magento\Framework\DataObject $row)
+    protected function _prepareArrayRow(DataObject $row): void
     {
 
         $customAttribute = $row->getData('validation_value');
