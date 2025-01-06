@@ -29,71 +29,26 @@ class AddCustomSortOrderLayoutProcessor implements LayoutProcessorInterface
     }
 
     /**
-     * Implement custom sort order to jsLayout
+     * Implement custom label to jsLayout
      *
-     * @param $jsLayout
+     * @param array $jsLayout
      * @return array
      */
     public function process($jsLayout): array
     {
         if ($this->config->isEnabled()) {
-            $this->implementShippingAddressSortOrder($jsLayout);
-            $this->implementBillingAddressSortOrder($jsLayout);
+            $this->customFieldProcessor->implementShippingAddress(
+                $jsLayout,
+                $this->config->getCustomSortOrderJson(),
+                CustomFieldProcessor::SORT_ORDER_FIELD
+            );
+            $this->customFieldProcessor->implementBillingAddress(
+                $jsLayout,
+                $this->config->getCustomSortOrderJson(),
+                CustomFieldProcessor::SORT_ORDER_FIELD
+            );
         }
 
-        return $jsLayout;
-    }
-
-    /**
-     * Implement custom sort order for shipping address
-     *
-     * @param $jsLayout
-     * @return array
-     */
-    protected function implementShippingAddressSortOrder(&$jsLayout): array
-    {
-        $shippingForm = Config::COMPONENT_PATH . $this->config->getAdvancedShippingAddressPath();
-
-        if (empty($fields = $this->arrayManager->get($shippingForm, $jsLayout))) {
-            return $jsLayout;
-        }
-
-        $customFields = $this->config->getCustomSortOrderJson();
-        $this->customFieldProcessor->applyCustomFieldSettings($customFields,  $fields, Config::SHIPPING_FORMS, 'sortOrder');
-        $jsLayout = $this->arrayManager->replace($shippingForm, $jsLayout, $fields);
-        return $jsLayout;
-    }
-
-    /**
-     * Implement custom sort order for billing address
-     *
-     * @param $jsLayout
-     * @return array
-     */
-    protected function implementBillingAddressSortOrder(&$jsLayout): array
-    {
-        $billingMode = $this->config->getDisplayBillingAddressMode();
-        $customFields = $this->config->getCustomSortOrderJson();
-        if ($billingMode) {
-            $billingForm = Config::COMPONENT_PATH . $this->config->getAdvancedBillingAddressPath();
-            if (empty($fields = $this->arrayManager->get($billingForm, $jsLayout))) {
-                return $jsLayout;
-            }
-
-            $this->customFieldProcessor->applyCustomFieldSettings($customFields,  $fields, Config::BILLING_FORMS, 'sortOrder');
-            $jsLayout = $this->arrayManager->replace($billingForm, $jsLayout, $fields);
-        } else {
-            foreach ($this->customFieldProcessor->getPaymentMethods($jsLayout) as $paymentKey => &$paymentMethod) {
-                $paymentPath = Config::BILLING_ADDRESS_PAYMENT_METHODS_PATH . '/' . $paymentKey . '/' . 'children/form-fields/children';
-                $fields = &$paymentMethod['children']['form-fields']['children'];
-                if ($fields === null) {
-                    continue;
-                }
-
-                $this->customFieldProcessor->applyCustomFieldSettings($customFields,  $fields, Config::BILLING_FORMS, 'sortOrder');
-                $jsLayout = $this->arrayManager->replace($paymentPath, $jsLayout, $fields);
-            }
-        }
         return $jsLayout;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 /**
- * Copyright © 2024
+ * Copyright © 2025
  * Piotr Wlosek piotr.wlosekx@gmail.com
  */
 namespace M2S\AdvancedValidator\Block\Adminhtml\Form\Field;
@@ -13,7 +13,7 @@ use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\BlockInterface;
 
-class ColumnFieldsSorter extends AbstractFieldArray
+class ColumnFieldsLabel extends AbstractFieldArray
 {
     /**
      * Create select options block
@@ -42,12 +42,12 @@ class ColumnFieldsSorter extends AbstractFieldArray
     {
         $this->addColumn('field_code', [
             'label' => __('Field code'), 'class' => 'required-entry']);
-        $this->addColumn('sort_order', [
-            'label' => __('Sort Order'), 'class' => 'required-entry']);
+        $this->addColumn('label', [
+            'label' => __('Label'), 'class' => 'required-entry']);
         $this->addColumn('address_type', [
             'label' => __('Form Type'), 'renderer' => $this->getAddressTypeSelect()]);
         $this->_addAfter = false;
-        $this->_addButtonLabel = __('Add custom sort field');
+        $this->_addButtonLabel = __('Add custom label field');
     }
 
     /**

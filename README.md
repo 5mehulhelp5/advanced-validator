@@ -138,6 +138,41 @@ In this scenario, you have the `city` field set to appear first, followed by the
 This sorting configuration allows store admins to control the layout and order of fields in the checkout process, enhancing the user experience.
 
 
+## Label Configuration
+
+The **Label Configuration** section allows you to define custom labels for checkout fields.
+
+### Example Use Case for Label Configuration
+
+In this scenario, you want to customize the label for the `city` field in the checkout form:
+
+1. In the **Label Configuration**, set the label for the `city` field:
+
+| **Field code** | **Label**         | **Form Type**          |
+|----------------|-------------------|------------------------|
+| `city`         | `Your City Name`   | All forms              |
+
+This configuration allows store admins to control the text displayed for each field during the checkout process.
+
+---
+
+## Class Configuration
+
+The **Class Configuration** section allows you to specify custom CSS classes for checkout fields.
+
+### Example Use Case for Class Configuration
+
+In this scenario, you want to assign a CSS class to the `city` field:
+
+1. In the **Class Configuration**, set the CSS class for the `city` field:
+
+| **Field code** | **CSS Class** | **Form Type**          |
+|----------------|---------------|------------------------|
+| `city`         | `col-3`       | All forms              |
+
+This configuration allows store admins to control the appearance of fields by applying custom CSS classes.
+
+
 ## Credits
 
 - Developed by Piotr Wlosek

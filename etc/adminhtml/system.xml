@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © 2024
+ * Copyright © 2025
  * Piotr Wlosek piotr.wlosekx@gmail.com
  */
 -->
@@ -40,6 +40,24 @@
                     <label>Fields sort order</label>
                     <comment>Configure the sorting for the field. Example: Field code: 'city', Sort Order: 50, Form Type: 'All forms'.</comment>
                     <frontend_model>M2S\AdvancedValidator\Block\Adminhtml\Form\Field\ColumnFieldsSorter</frontend_model>
+                    <backend_model>M2S\AdvancedValidator\Model\Config\SerializeValue</backend_model>
+                </field>
+            </group>
+            <group id="label" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Label Configuration</label>
+                <field id="label_configuration" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Labels configuration</label>
+                    <comment>Configure the label for the field. Example: Field code: 'firstname', Label: 'Your name', Form Type: 'All forms'.</comment>
+                    <frontend_model>M2S\AdvancedValidator\Block\Adminhtml\Form\Field\ColumnFieldsLabel</frontend_model>
+                    <backend_model>M2S\AdvancedValidator\Model\Config\SerializeValue</backend_model>
+                </field>
+            </group>
+            <group id="class" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Class Configuration</label>
+                <field id="class_configuration" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Class order</label>
+                    <comment>Configure the style class for the field. Example: Field code: 'city', CSS class: 'col-3', Form Type: 'All forms'.</comment>
+                    <frontend_model>M2S\AdvancedValidator\Block\Adminhtml\Form\Field\ColumnFieldsClass</frontend_model>
                     <backend_model>M2S\AdvancedValidator\Model\Config\SerializeValue</backend_model>
                 </field>
             </group>

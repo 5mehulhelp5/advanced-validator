@@ -15,8 +15,9 @@ use Magento\Framework\View\Element\BlockInterface;
 
 class ColumnFieldsValidation extends AbstractFieldArray
 {
-
     /**
+     * Create select options block
+     *
      * @return BlockInterface
      * @throws LocalizedException
      */
@@ -33,6 +34,8 @@ class ColumnFieldsValidation extends AbstractFieldArray
     }
 
     /**
+     * Create select options block
+     *
      * @return BlockInterface
      * @throws LocalizedException
      */
@@ -49,15 +52,20 @@ class ColumnFieldsValidation extends AbstractFieldArray
     }
 
     /**
+     * Create columns for configuration
+     *
      * @return void
-     * @throws LocalizedException
      */
     protected function _prepareToRender(): void
     {
-        $this->addColumn('field_code',['label' => __('Field code'), 'class' => 'required-entry']);
-        $this->addColumn('validation_name',['label' => __('Validation Key'), 'class' => 'required-entry']);
-        $this->addColumn('validation_value',['label' => __('Validation Enabled'), 'renderer' => $this->optionIsEnabled()]);
-        $this->addColumn('address_type',['label' => __('Form Type'), 'renderer' => $this->getAddressTypeSelect()]);
+        $this->addColumn('field_code', [
+            'label' => __('Field code'), 'class' => 'required-entry']);
+        $this->addColumn('validation_name', [
+            'label' => __('Validation Key'), 'class' => 'required-entry']);
+        $this->addColumn('validation_value', [
+            'label' => __('Validation Enabled'), 'renderer' => $this->optionIsEnabled()]);
+        $this->addColumn('address_type', [
+            'label' => __('Form Type'), 'renderer' => $this->getAddressTypeSelect()]);
         $this->_addAfter = false;
         $this->_addButtonLabel = __('Add validation');
     }
@@ -65,10 +73,10 @@ class ColumnFieldsValidation extends AbstractFieldArray
     /**
      * Prepare existing row data object.
      *
-     * @param \Magento\Framework\DataObject $row
+     * @param DataObject $row
      * @return void
      */
-    protected function _prepareArrayRow(\Magento\Framework\DataObject $row)
+    protected function _prepareArrayRow(DataObject $row): void
     {
 
         $customAttribute = $row->getData('validation_value');
