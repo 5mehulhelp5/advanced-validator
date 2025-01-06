@@ -45,13 +45,14 @@ class CustomFieldProcessor
      * Adds custom validation to the fields.
      *
      * @param array $customField
+     * @param array $validationArray
      * @return array
      */
-    public function addCustomValidation(array $customField): array
+    public function addCustomValidation(array $customField, array $validationArray): array
     {
-        return [
+        return array_merge($validationArray, [
             $customField['validation_name'] => !!$customField['validation_value']
-        ];
+        ]);
     }
 
     /**
@@ -98,32 +99,19 @@ class CustomFieldProcessor
      */
     public function applyCustomFieldSettings(array $customFields, array &$fields, int $addressType, string $type): void
     {
-        $validationFields = [];
-
         foreach ($customFields as $customField) {
             if ($this->isEnabledForAddressType($customField, $addressType)) {
                 $fieldCode = $customField['field_code'];
 
                 if ($type === self::VALIDATION_FIELD) {
-                    $validationFields[$fieldCode][] = $this->addCustomValidation($customField);
+                    $fields[$fieldCode][self::VALIDATION_FIELD] =
+                        $this->addCustomValidation($customField, $fields[$fieldCode][self::VALIDATION_FIELD]);
                 } elseif ($type === self::SORT_ORDER_FIELD) {
                     $fields[$fieldCode][self::SORT_ORDER_FIELD] = $this->addCustomSortOrder($customField);
                 } elseif ($type === self::LABEL_FIELD) {
                     $fields[$fieldCode][self::LABEL_FIELD] = $this->addCustomLabel($customField);
                 } elseif ($type === self::ADDITIONAL_CLASSES_FIELD) {
                     $fields[$fieldCode][self::ADDITIONAL_CLASSES_FIELD] = $this->addCustomAdditionalClass($customField);
-                }
-            }
-        }
-
-        if (!empty($validationFields)) {
-            foreach ($validationFields as $fieldCode => $validationItems) {
-                if (isset($fields[$fieldCode][self::VALIDATION_FIELD])) {
-                    foreach ($validationItems as $validationItem) {
-                        $fields[$fieldCode][self::VALIDATION_FIELD][] = $validationItem;
-                    }
-                } else {
-                    $fields[$fieldCode][self::VALIDATION_FIELD] = $validationItems;
                 }
             }
         }
