@@ -12,6 +12,8 @@ use M2S\AdvancedValidator\ViewModel\Config;
 class AddressType extends Select
 {
     /**
+     * Add options for select
+     *
      * @return string
      */
     protected function _toHtml(): string

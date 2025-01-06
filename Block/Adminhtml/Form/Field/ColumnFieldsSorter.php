@@ -15,8 +15,9 @@ use Magento\Framework\View\Element\BlockInterface;
 
 class ColumnFieldsSorter extends AbstractFieldArray
 {
-
     /**
+     * Create select options block
+     *
      * @return BlockInterface
      * @throws LocalizedException
      */
@@ -32,9 +33,10 @@ class ColumnFieldsSorter extends AbstractFieldArray
         return $this->addressType;
     }
 
-
     /**
-     * @throws LocalizedException
+     * Create columns for configuration
+     *
+     * @return void
      */
     protected function _prepareToRender(): void
     {

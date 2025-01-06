@@ -11,6 +11,8 @@ use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
 class ColumnValidation extends AbstractFieldArray
 {
     /**
+     * Create columns for configuration
+     *
      * @return void
      */
     protected function _prepareToRender(): void

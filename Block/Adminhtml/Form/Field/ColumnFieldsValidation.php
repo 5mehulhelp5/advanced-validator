@@ -15,8 +15,9 @@ use Magento\Framework\View\Element\BlockInterface;
 
 class ColumnFieldsValidation extends AbstractFieldArray
 {
-
     /**
+     * Create select options block
+     *
      * @return BlockInterface
      * @throws LocalizedException
      */
@@ -33,6 +34,8 @@ class ColumnFieldsValidation extends AbstractFieldArray
     }
 
     /**
+     * Create select options block
+     *
      * @return BlockInterface
      * @throws LocalizedException
      */
@@ -49,8 +52,9 @@ class ColumnFieldsValidation extends AbstractFieldArray
     }
 
     /**
+     * Create columns for configuration
+     *
      * @return void
-     * @throws LocalizedException
      */
     protected function _prepareToRender(): void
     {

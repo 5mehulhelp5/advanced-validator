@@ -15,8 +15,9 @@ use Magento\Framework\View\Element\BlockInterface;
 
 class ColumnFieldsClass extends AbstractFieldArray
 {
-
     /**
+     * Create select options block
+     *
      * @return BlockInterface
      * @throws LocalizedException
      */
@@ -32,8 +33,9 @@ class ColumnFieldsClass extends AbstractFieldArray
         return $this->addressType;
     }
 
-
     /**
+     * Create columns in admin configuration
+     *
      * @throws LocalizedException
      */
     protected function _prepareToRender(): void

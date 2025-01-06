@@ -16,6 +16,8 @@ use Magento\Framework\View\Element\BlockInterface;
 class ColumnFieldsLabel extends AbstractFieldArray
 {
     /**
+     * Create select options block
+     *
      * @return BlockInterface
      * @throws LocalizedException
      */
@@ -32,7 +34,9 @@ class ColumnFieldsLabel extends AbstractFieldArray
     }
 
     /**
-     * @throws LocalizedException
+     * Create columns for configuration
+     *
+     * @return void
      */
     protected function _prepareToRender(): void
     {
